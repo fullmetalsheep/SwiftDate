@@ -24,23 +24,6 @@
 
 import Foundation
 
-/// Time interval reference
-///
-/// - start: start of the specified component
-/// - end: end of the specified component
-/// - auto: value is the result of the operation
-public enum TimeReference {
-	case start
-	case end
-	case auto
-}
-
-
-/// Rounding mode of the interval
-///
-/// - round: round
-/// - ceil: ceil
-/// - floor: floor
 public enum IntervalRoundingType {
 	case round
 	case ceil
@@ -91,11 +74,11 @@ public enum WeekDay: Int {
 ///						want to save.
 ///
 /// - returns: the instance you have created into the current thread
-internal func localThreadSingleton<T: AnyObject>(key: String, create: (Void) -> T) -> T {
+internal func localThreadSingleton<T: AnyObject>(key: String, create: () -> T) -> T {
 	if let cachedObj = Thread.current.threadDictionary[key] as? T {
 		return cachedObj
 	} else {
-		let newObject = create()
+        let newObject = create()
 		Thread.current	.threadDictionary[key] = newObject
 		return newObject
 	}
